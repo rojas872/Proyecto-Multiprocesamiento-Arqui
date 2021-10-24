@@ -1,6 +1,6 @@
 # Proyecto-Multiprocesamiento-Arqui
-#Se crea un programa con el cual se pueda reconocer rostros, accesorios y entre otras mas cosas desde videos cortos, peliculas etc.
-#El sistema registra los videos por medio de imagenes que va sacando de los videos.
+Se crea un programa con el cual se pueda reconocer rostros, accesorios y entre otras mas cosas desde videos cortos, peliculas etc.
+El sistema registra los videos por medio de imagenes que va sacando de los videos.
 
 
        from multiprocessing import Process
@@ -19,7 +19,7 @@
        import concurrent.futures
        import time
 
-#Se usa una direccion url y una suscipcion en microsoft azure, para poder hacer uso del reconocimiento de personas
+Se usa una direccion url y una suscipcion en microsoft azure, para poder hacer uso del reconocimiento de personas
 
        subscription_key = None
        SUBSCRIPTION_KEY = '4a627e3e7d46478fa2b14c2f41f7f91e'
@@ -106,6 +106,9 @@ En esta funcion se muestra la imagen usada y a su vez con un triangulo en el ros
 
        #@mide_tiempo
 
+En esta parte, lo que sucede es que se toma las imagenes que se desean usar en la busqueda de emociones y demas datos que se deseen
+tomar, ya sea como sus emociones, color de cabello, accesorios, entre otros mas.
+
        def emotions(picture):
               """ use people's information list 
 
@@ -132,6 +135,13 @@ En esta funcion se muestra la imagen usada y a su vez con un triangulo en el ros
               #print (analysis)
               personas=[]
               cont= 1;
+
+Se recorren las listas para ir sacando cada uno de los datos requeridos incluidos en diccionarios, de estos datos se encuentran
+las emociones, el color de cabello de la persona, los accesorios con los que ande puesto, entre otros mas.
+Para poder acceder a cada uno de las areas de los diccionarios, lo que se hace es ir recorriendo el diccionario, y por consiguiente
+sacando uno a uno de los datos, como es en el caso de las emociones, se situa primero sobre el faceAttributes para despues buscar dentro
+de el y sacar las emociones, asi como el genero y hasta los accesorios, se basa en una misma accion para poder obtener dichos datos.
+Luego de que estos datos se sacan se incluyen en listas y luego esta lista se agrega a otra lista para que sean varias sublistas en con datos.
 
               for x in analysis:
                      print("\nPersona # ", cont)
