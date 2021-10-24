@@ -1,4 +1,7 @@
 # Proyecto-Multiprocesamiento-Arqui
+#Se crea un programa con el cual se pueda reconocer rostros, accesorios y entre otras mas cosas desde videos cortos, peliculas etc.
+#El sistema registra los videos por medio de imagenes que va sacando de los videos.
+
 
 from multiprocessing import Process
 import multiprocessing
@@ -23,16 +26,7 @@ BASE_URL = 'https://tallerp2021.cognitiveservices.azure.com/face/v1.0/'
 CF.BaseUrl.set(BASE_URL)
 CF.Key.set(SUBSCRIPTION_KEY)
 
-""""
-SUBSCRIPTION_KEY = 'bdd22a7bb9f84e079ec9cc227c14b5e9'
 
-BASE_URL = 'https://andrey7216.cognitiveservices.azure.com//face/v1.0/'
-"""
-"""
-SUBSCRIPTION_KEY = '388442f09fd2422fa3feb6004a8254c6'
-
-BASE_URL = 'https://luxgie6996.cognitiveservices.azure.com/face/v1.0/'
-"""
 listaPath=[] 
 
 
@@ -62,7 +56,7 @@ def fotogramas(pathVideo):
                     j +=20           
               img_index += 1       
        cap.release()
-       cv2.destroyAllWindows()#destruye ventanas que se pudieron generar
+       cv2.destroyAllWindows() #destruye ventanas que se pudieron generar
 
 def show_image(path, faces):
        """ Show the picture with rectangle in the faces
