@@ -37,7 +37,7 @@
                      command = 'cls'
               os.system(command)
 
-
+En esta funcion de usa el path del video en fotogramas, para luego cada uno de esas imagenes ser utilizadas para sacar la informacion requerida
        def fotogramas(pathVideo):
 
        #C:\\Users\DELL 7470\\OneDrive\\Escritorio\\Fotograma\\opencv_extract_frames\\Kevelyn_Gonzalez_GR51.mp4
@@ -58,6 +58,8 @@
                      img_index += 1       
               cap.release()
               cv2.destroyAllWindows() #destruye ventanas que se pudieron generar
+              
+En esta funcion se muestra la imagen usada y a su vez con un triangulo en el rostro de la persona
 
        def show_image(path, faces):
               """ Show the picture with rectangle in the faces
