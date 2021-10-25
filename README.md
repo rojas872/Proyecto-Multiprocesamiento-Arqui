@@ -1,6 +1,8 @@
 # Proyecto-Multiprocesamiento-Arqui
+Hola, en esta ocasion la idea de crear este proyecto es para poder analizar datos con una eficiencia mejor en cuanto al tiempo de que
+se dura en recibir los datos y a la vez de generarlos. Es por esto que:
 Se crea un programa con el cual se pueda reconocer rostros, accesorios y entre otras mas cosas desde videos cortos, peliculas etc.
-El sistema registra los videos por medio de imagenes que va sacando de los videos.
+El sistema registra los videos por medio de imagenes que va sacando de los videos, y se usa multiprocesamiento.
 
 
        from multiprocessing import Process
