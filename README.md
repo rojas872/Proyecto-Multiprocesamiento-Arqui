@@ -158,12 +158,12 @@ listaPath=[]
               for x in analysis:
                      print("\nPersona # ", cont)
                      lista=[]
-                     faceId= x["faceId"]
-                     personas.append(faceId)
-                     faceAttributes= x['faceAttributes']
-                     emotion = faceAttributes["emotion"]
-                     gender= faceAttributes["gender"]
-                     accessories= faceAttributes['accessories']
+                     faceId= x["faceId"]                         #Se accede al face id
+                     personas.append(faceId)                     #Se agrega el faceID a la lista de personas
+                     faceAttributes= x['faceAttributes']         #Se accede a faceAttributes
+                     emotion = faceAttributes["emotion"]         #Luego se accede a emotion desde faceaAttributes
+                     gender= faceAttributes["gender"]            #Tambien se accede a gender desde faceAttributes
+                     accessories= faceAttributes['accessories']  #Y asi con los datos que se quieran seguir sacando de acuerdo al diccionario que se genera
                      facialHair= faceAttributes['facialHair']
                      hair= faceAttributes['hair']
                      hairColor= hair ['hairColor']
@@ -240,7 +240,7 @@ uso de ello, de lo cual denota que es bastante mas eficiente que sin usarse.
                             print(f'Duracion: {time.perf_counter() - start}')
                             listaPath=[]
 
-En esta parte lo que se realiza es el uso del multiprocesamiento por parte del recurso face y del fotograma
+En esta parte lo que se realiza es el uso del multiprocesamiento por parte del recurso face y del fotograma, y se sacan los tiempos de ejecucion.
 
                       #MULTIPROCESAMIENTO DEL RECURSO FACE       
                      elif a =='2':
