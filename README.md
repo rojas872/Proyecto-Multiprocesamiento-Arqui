@@ -2,6 +2,9 @@
 Hola, en esta ocasion la idea de crear este proyecto es para poder analizar datos con una eficiencia mejor en cuanto al tiempo de que
 se dura en recibir los datos y a la vez de generarlos. Es por esto que:
 
+Se crea un programa en donde permita poder obtener reconocimiento de personas, ademas de sus accesorios, color de cabello, entre otros mas
+que pueden estar presentes durante el video, eso si debe ser parte de las personas y con previa busqueda que se realiza de algunas ocasiones.
+
 #Se importan algunas librerias y modulos para trabajar con algunos servicios de Microsof Azure y opencv para reconocer emociones en videos
 
 #Paso 1.    presionar windows + R
@@ -210,6 +213,9 @@ listaPath=[]
               show_image(picture,faces)
               print("\n\nNumber of people in the image:  ", len(personas))
 
+Se realiza un menu con la idea de poder mostrar ambos tiempos, tanto en el que no se usa el multiprocesamiento y en el que se hace 
+uso de ello, de lo cual denota que es bastante mas eficiente que sin usarse.
+
        if _name_ == "_main_":
               print ("\nSTARTING...")
               a = 0
@@ -233,6 +239,8 @@ listaPath=[]
                             print ("\nSin multiprocesamiento")
                             print(f'Duracion: {time.perf_counter() - start}')
                             listaPath=[]
+
+En esta parte lo que se realiza es el uso del multiprocesamiento por parte del recurso face y del fotograma
 
                       #MULTIPROCESAMIENTO DEL RECURSO FACE       
                      elif a =='2':
