@@ -58,6 +58,7 @@ listaPath=[]
 
 """[como se menciona anteriromente usamos la libreria opencv, para analizar el video, recibe por parametro el path local del video, capturando el fotograma cada 20]
 """
+              
               def fotogramas(pathVideo):
                      # Extract all frames from a video using Python (OpenCV)
 
@@ -79,6 +80,7 @@ listaPath=[]
                      cv2.destroyAllWindows()#destruye ventanas que se pudieron generar
 
 #En esta funcion se muestra la imagen usada y a su vez con un rectangulo en el rostro de la persona o las personas que reconozca 
+              
               def show_image(path, faces):
                      """ Show the picture with rectangle in the faces
                      Arguments:
@@ -118,6 +120,7 @@ listaPath=[]
 """[En esta parte, lo que sucede es que se toma las imagenes que se desean usar en la busqueda de emociones y demas datos que se deseen
        tomar, ya sea como sus emociones, color de cabello, accesorios, entre otros mas.]
 """
+              
               def emotions(picture):
                      """ use people's information list 
 
