@@ -2,150 +2,156 @@
 Hola, en esta ocasion la idea de crear este proyecto es para poder analizar datos con una eficiencia mejor en cuanto al tiempo de que
 se dura en recibir los datos y a la vez de generarlos. Es por esto que:
 
-Se crea un programa con el cual se pueda reconocer rostros, accesorios y entre otras mas cosas desde videos cortos, peliculas etc.
-El sistema registra los videos por medio de imagenes que va sacando de los videos, y se usa multiprocesamiento.
+#Se importan algunas librerias y modulos para trabajar con algunos servicios de Microsof Azure y opencv para reconocer emociones en videos
+
+#Paso 1.    presionar windows + R
+
+#Paso 2.    escribir "powershell" en la pequena ventana que se muestra
+
+#Paso 3.    escribir "pip" en la terminal que se muestra, si no hay instalado ningun paquete pip precedemos a ingresar los siguientes comandos para sun instalacion
+
+#Paso 4.    instalaremos el modulo pygame escribimos pip install pygame 
+
+#Paso 5.     instalaremos opencv esta libreria permite el analisis y procesamiento de videos e imagenes escribimos pip install opencv-python
+
+#Paso 6.     Actualizamos los paquetes pip existentes python -m pip install --upgrade pip
 
 
-       from multiprocessing import Process
-       import multiprocessing
-       import sys
-       import requests
-       import json 
-       import os
 
-       import cognitive_face as CF
-       from PIL import Image, ImageDraw, ImageFont
-       import cv2
+              from multiprocessing import Process
+              import multiprocessing
+              import sys
+              import requests
+              import json 
+              import os
 
-
-
-       import concurrent.futures
-       import time
-
-Se usa una direccion url y una suscipcion en microsoft azure, para poder hacer uso del reconocimiento de personas
-
-       subscription_key = None
-       SUBSCRIPTION_KEY = '4a627e3e7d46478fa2b14c2f41f7f91e'
-       BASE_URL = 'https://tallerp2021.cognitiveservices.azure.com/face/v1.0/'
-       CF.BaseUrl.set(BASE_URL)
-       CF.Key.set(SUBSCRIPTION_KEY)
+              import cognitive_face as CF
+              from PIL import Image, ImageDraw, ImageFont
+              import cv2
 
 
-       listaPath=[] 
+
+              import concurrent.futures
+              import time
+
+              subscription_key = None
+              #Se requiere de una suscripcion  Microsof azure para obetener un URl y una KEY
+              SUBSCRIPTION_KEY = '4a627e3e7d46478fa2b14c2f41f7f91e'
+              BASE_URL = 'https://tallerp2021.cognitiveservices.azure.com/face/v1.0/'
+              CF.BaseUrl.set(BASE_URL)
+              CF.Key.set(SUBSCRIPTION_KEY)
 
 
-       def clearConsole():
-              command = 'clear'
-              if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
-                     command = 'cls'
-              os.system(command)
+#Se guardadn las rutas de acceso de las imagenes en una lista
+listaPath=[] 
 
-En esta funcion de usa el path del video en fotogramas, para luego cada uno de esas imagenes ser utilizadas para sacar la informacion requerida
-       def fotogramas(pathVideo):
+"""[Este metodo permite limpiar la terminal]
+"""
+              def clearConsole():
+                     command = 'clear'
+                     if os.name in ('nt', 'dos'):  
+                            command = 'cls'
+                     os.system(command)
 
-       #C:\\Users\DELL 7470\\OneDrive\\Escritorio\\Fotograma\\opencv_extract_frames\\Kevelyn_Gonzalez_GR51.mp4
-              # Extract all frames from a video using Python (OpenCV)
-              cap = cv2.VideoCapture(pathVideo)
+"""[como se menciona anteriromente usamos la libreria opencv, para analizar el video, recibe por parametro el path local del video, capturando el fotograma cada 20]
+"""
+              def fotogramas(pathVideo):
+                     # Extract all frames from a video using Python (OpenCV)
 
-              img_index = 0
-              j= 20
-              while (cap.isOpened()):
-                     ret, frame = cap.read() #obtiene cada fotograma
-                     if ret == False: 
-                            break
-                     if img_index==j: #obtiene el fotograma cada 20
-                           cv2.imwrite('C:\\Users\Andrey Rojas Garcia\\Desktop\\Fotograma' + str(img_index) + '.png',frame)
-                           foto= "C:\\Users\Andrey Rojas Garcia\\Desktop\\Fotograma" + str(img_index) + '.png'
-                           listaPath.append(foto)
-                           j +=20           
-                     img_index += 1       
-              cap.release()
-              cv2.destroyAllWindows() #destruye ventanas que se pudieron generar
-              
-En esta funcion se muestra la imagen usada y a su vez con un triangulo en el rostro de la persona
+                     cap = cv2.VideoCapture(pathVideo)
 
-       def show_image(path, faces):
-              """ Show the picture with rectangle in the faces
-              Arguments:
-              faces {list} -- list of faceRectangle values
-              path {string} -- image location 
-              """
-              image = Image.open(path)
-              draw = ImageDraw.Draw(image)
-              for faceRectangle in faces:
-                     top = faceRectangle['top']
-                     left = faceRectangle['left']
-                     width= faceRectangle['width']
-                     height = faceRectangle['height']
-                     draw.rectangle((left,top, left+width, top+height), outline='red', width=2)
+                     img_index = 0
+                     j= 20
+                     while (cap.isOpened()):
+                            ret, frame = cap.read() #obtiene cada fotograma
+                            if ret == False: 
+                                   break
+                            if img_index==j: #obtiene el fotograma cada 20
+                                  cv2.imwrite('C:\\Users\\DELL 7470\\OneDrive\\Escritorio\\Fotograma\\opencv_extract_frames' + str(img_index) + '.png',frame)
+                                  foto= "C:\\Users\\DELL 7470\\OneDrive\\Escritorio\\Fotograma\\opencv_extract_frames" + str(img_index) + '.png'
+                                  listaPath.append(foto)
+                                  j +=20           
+                            img_index += 1       
+                     cap.release()
+                     cv2.destroyAllWindows()#destruye ventanas que se pudieron generar
 
-       image.show()
+#En esta funcion se muestra la imagen usada y a su vez con un rectangulo en el rostro de la persona o las personas que reconozca 
+              def show_image(path, faces):
+                     """ Show the picture with rectangle in the faces
+                     Arguments:
+                     faces {list} -- list of faceRectangle values
+                     path {string} -- image location 
+                     """
+                     image = Image.open(path)
+                     draw = ImageDraw.Draw(image)
+                     for faceRectangle in faces:
+                            top = faceRectangle['top']
+                            left = faceRectangle['left']
+                            width= faceRectangle['width']
+                            height = faceRectangle['height']
+                            draw.rectangle((left,top, left+width, top+height), outline='red', width=2)
 
-       def higher(lista):
-              """ extracts the highest data from the list
-              Arguments:
-              lista {list}-- list with sublist that containing the faceId, age and gender 
+                     image.show()
 
-       Return:
-       higher -- is the sublist with the highest age
+              def higher(lista):
+                     """ extracts the highest data from the list
+                     Arguments:
+                     lista {list}-- list with sublist that containing the faceId, age and gender 
+
+                     Return:
+                     higher -- is the sublist with the highest age
+
+                     """
+                     if len(lista)==0:
+                            return None 
+                     else:
+                            higher= lista[0]
+                            for x in lista[1:]:
+                                   if x[1]>higher[1]:
+                                          higher=x
+                            return higher 
+
+
+"""[En esta parte, lo que sucede es que se toma las imagenes que se desean usar en la busqueda de emociones y demas datos que se deseen
+       tomar, ya sea como sus emociones, color de cabello, accesorios, entre otros mas.]
+"""
+              def emotions(picture):
+                     """ use people's information list 
+
+                     Arguments :
+
+                     picture {string} -- is the image 
+
+                     Return:
+                     a list with information about people  
+                     """
+                     image_path = picture
+
+                     image_data = open(image_path, "rb").read()
+                     headers = {'Ocp-Apim-Subscription-Key': SUBSCRIPTION_KEY,
+                     'Content-Type': 'application/octet-stream'}
+                     params = {
+                            'returnFaceId': 'true',
+                            'returnFaceLandmarks': 'false',
+                            'returnFaceAttributes': 'age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise',
+                     }
+                     response = requests.post(
+                                                 BASE_URL + "detect/", headers=headers, params=params, data=image_data)
+                     analysis = response.json()
+                     #print (analysis)
+                     personas=[]
+                     cont= 1
+
+      
+  Se recorren las listas para ir sacando cada uno de los datos requeridos incluidos en diccionarios, de estos datos se encuentran
+  las emociones, el color de cabello de la persona, los accesorios con los que ande puesto, entre otros mas.
+  Para poder acceder a cada uno de las areas de los diccionarios, lo que se hace es ir recorriendo el diccionario, y por consiguiente
+  sacando uno a uno de los datos, como es en el caso de las emociones, se situa primero sobre el faceAttributes para despues buscar dentro
+  de el y sacar las emociones, asi como el genero y hasta los accesorios, se basa en una misma accion para poder obtener dichos datos.
+  Luego de que estos datos se sacan se incluyen en listas y luego esta lista se agrega a otra lista para que sean varias sublistas en con datos.
+            
        
-       """
-       if len(lista)==0:
-              return None 
-       else:
-              higher= lista[0]
-              for x in lista[1:]:
-                     if x[1]>higher[1]:
-                            higher=x
-              return higher 
-
-       #def mide_tiempo(funcion):
-              # def funcion_medida(*args, **kwargs):
-                     # inicio = time.time()
-                     # c = funcion(*args, **kwargs)
-              #        print(time.time() - inicio)
-              #        return c
-              # return funcion_medida
-
-       #@mide_tiempo
-
-En esta parte, lo que sucede es que se toma las imagenes que se desean usar en la busqueda de emociones y demas datos que se deseen
-tomar, ya sea como sus emociones, color de cabello, accesorios, entre otros mas.
-
-       def emotions(picture):
-              """ use people's information list 
-
-              Arguments :
-
-              picture {string} -- is the image 
-
-              Return:
-              a list with information about people  
-              """
-              image_path = picture
-
-              image_data = open(image_path, "rb").read()
-              headers = {'Ocp-Apim-Subscription-Key': SUBSCRIPTION_KEY,
-              'Content-Type': 'application/octet-stream'}
-              params = {
-                     'returnFaceId': 'true',
-                     'returnFaceLandmarks': 'false',
-                     'returnFaceAttributes': 'age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise',
-              }
-              response = requests.post(
-                                          BASE_URL + "detect/", headers=headers, params=params, data=image_data)
-              analysis = response.json()
-              #print (analysis)
-              personas=[]
-              cont= 1;
-
-Se recorren las listas para ir sacando cada uno de los datos requeridos incluidos en diccionarios, de estos datos se encuentran
-las emociones, el color de cabello de la persona, los accesorios con los que ande puesto, entre otros mas.
-Para poder acceder a cada uno de las areas de los diccionarios, lo que se hace es ir recorriendo el diccionario, y por consiguiente
-sacando uno a uno de los datos, como es en el caso de las emociones, se situa primero sobre el faceAttributes para despues buscar dentro
-de el y sacar las emociones, asi como el genero y hasta los accesorios, se basa en una misma accion para poder obtener dichos datos.
-Luego de que estos datos se sacan se incluyen en listas y luego esta lista se agrega a otra lista para que sean varias sublistas en con datos.
-
+       
               for x in analysis:
                      print("\nPersona # ", cont)
                      lista=[]
@@ -204,7 +210,7 @@ Luego de que estos datos se sacan se incluyen en listas y luego esta lista se ag
               show_image(picture,faces)
               print("\n\nNumber of people in the image:  ", len(personas))
 
-       if __name__ == "__main__":
+       if _name_ == "_main_":
               print ("\nSTARTING...")
               a = 0
               while a!='3':
@@ -213,8 +219,7 @@ Luego de que estos datos se sacan se incluyen en listas y luego esta lista se ag
                      print("3. Salir")
                      a = input("\nEnter the number:")
                      if a == '1':
-                            #Se pide el path del video
-
+                            #Se pide el path del video                  
                             pathVideo=input("\nEnter the path of the video:")
                             start = time.perf_counter()
                             #se analiza el video
@@ -239,27 +244,20 @@ Luego de que estos datos se sacan se incluyen en listas y luego esta lista se ag
                             p.join()
                             #parte de Azure
                             fotogramas(pathVideo)
-
                             #Funcion con Multiproceso
                             start = time.perf_counter()
 
                             with concurrent.futures.ProcessPoolExecutor() as executor:
                                    for x in listaPath:
 
-                                          executor.submit(emotions(x))
-
-
+                                          executor.submit(emotions(x))            
                             print ("\nCon multiprocesamiento")
                             print(f'Duration: {time.perf_counter() - start}')
 
-                            print("\\n")
-
-
-
+                            print("\\n")  
                             listaPath=[]
 
               print ("\nEND")
 
               #https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4
               #C:\Users\DELL 7470\Downloads\video.mp4
-              #C:\Users\Andrey Rojas Garcia\Desktop\Mr Robot\Temporada 1\1x01.mp4
