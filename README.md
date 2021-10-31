@@ -46,17 +46,13 @@ que pueden estar presentes durante el video, eso si debe ser parte de las person
 
 
 #Se guardadn las rutas de acceso de las imagenes en una lista
-listaPath=[] 
 
-"""[Este metodo permite limpiar la terminal]
-"""
-              def clearConsole():
-                     command = 'clear'
-                     if os.name in ('nt', 'dos'):  
-                            command = 'cls'
-                     os.system(command)
+    listaPath=[] 
 
-como se menciona anteriromente usamos la libreria opencv, para analizar el video, recibe por parametro el path local del video, capturando el fotograma cada 20
+
+como se menciona anteriormente usamos la libreria opencv, para analizar el video, recibe por parametro el path local del video, capturando el fotograma cada 20
+Como dato: estos 20 fotogramas son solo una idea, se podria sustituir estos numeros por 40, 60, etc, todo dependiendo el nivel de detalle que quiera que saque 
+del video, por ello se le invita a que pruebe moviendo es
               
               def fotogramas(pathVideo):
                      # Extract all frames from a video using Python (OpenCV)
@@ -78,7 +74,9 @@ como se menciona anteriromente usamos la libreria opencv, para analizar el video
                      cap.release()
                      cv2.destroyAllWindows()#destruye ventanas que se pudieron generar
 
-En esta funcion se muestra la imagen usada y a su vez con un rectangulo en el rostro de la persona o las personas que reconozca 
+En esta funcion se muestran las imagenes usadas, (imagenes que han salido al realizar el proceso de recorrido del video y con ello se genera 
+una serie de imagenes del video) y a su vez se marca con un rectangulo en el rostro de la persona o las personas que reconozca, con el fin de
+mostrar de quien o quienes esta tomando los datos.
               
               def show_image(path, faces):
                      """ Show the picture with rectangle in the faces
@@ -116,9 +114,10 @@ En esta funcion se muestra la imagen usada y a su vez con un rectangulo en el ro
                             return higher 
 
 
-En esta parte, lo que sucede es que se toma las imagenes que se desean usar en la busqueda de emociones y demas datos que se deseen
-       tomar, ya sea como sus emociones, color de cabello, accesorios, entre otros mas.
-
+En este paso o metodo, se realiza la consulta a las imagenes que se desean usar luego de haber las adquirido del video, en esto lo que se
+usa es el path de cada imagen, para asi el sistema va y busca cada uno de los path en la carpeta que se generaron dichas imagenes, se 
+genera caracteristicas como emociones, color de cabello, accesorios y entre otros mas.
+              
               
               def emotions(picture):
                      """ use people's information list 
@@ -215,8 +214,13 @@ En esta parte, lo que sucede es que se toma las imagenes que se desean usar en l
               show_image(picture,faces)
               print("\n\nNumber of people in the image:  ", len(personas))
 
-Se realiza un menu con la idea de poder mostrar ambos tiempos, tanto en el que no se usa el multiprocesamiento y en el que se hace 
-uso de ello, de lo cual denota que es bastante mas eficiente que sin usarse.
+Se realiza un menu con dos opciones, una que muestre la ajecucion sin el uso del multiprocesamiento, y el otro para que este usando el multiprocesamiento, 
+asi que, al realizar ambas pruebas se podra comparar cuanto es la diferencia, en donde deberia dar un rendimiento mejor (durar menos) el de multiprocesamiento.
+Cabe recalcar que estos procesos se relizan por medio de consultas a la plataforma de Microsoft Azure, por lo tanto pueden variar los resultados dependiendo
+de como se encuentre la estabilidad del internet.
+Ademas, en las zonas que se realizo la implementacion del multiprocesamiento en este codigo, se realizo esta mejora en cuanto a la hora de obtener las imagenes
+del video, es decir de ir sacando una a una las imagenes que el video tiene, y luego en lo que es la solicitud de caracteristicas y demas informacion de la persona.
+Se usa en dos areas que puede llegar a variar tambien por el tipo de dispositivo, ya que algunas veces el dispositivo altera o mejora la calidad de tiempo.
 
        if _name_ == "_main_":
               print ("\nSTARTING...")
@@ -242,7 +246,10 @@ uso de ello, de lo cual denota que es bastante mas eficiente que sin usarse.
                             print(f'Duracion: {time.perf_counter() - start}')
                             listaPath=[]
 
-En esta parte lo que se realiza es el uso del multiprocesamiento por parte del recurso face y del fotograma, y se sacan los tiempos de ejecucion.
+Cuando se realiza el uso del multiprocesamiento del recurso face, se genera el uso del path del video, para asi poder adquirir cada uno de los fotogramas
+por medio del recurso face, y luego esto saca los tiempos en que dure cada una de las ejecuciones del video y proceso de imagenes.
+El tiempo inicia desde que se inserta el path del video, hasta que por fin termina la ejecucion en curso con la ultima imagen que fue sacada del video
+en analizarse segun las caracteristicas requeridas en la solicitud.
 
                       #MULTIPROCESAMIENTO DEL RECURSO FACE       
                      elif a =='2':
