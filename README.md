@@ -275,3 +275,10 @@ en analizarse segun las caracteristicas requeridas en la solicitud.
                             listaPath=[]
 
               print ("\nEND")
+              
+En el siguiente apartado se pueden observar los resultados obtenidos, luego de realizar las ejecuciones del codigo:
+
+
+[![Whats-App-Image-2021-10-30-at-9-08-05-PM-1.jpg](https://i.postimg.cc/rm6v4jY9/Whats-App-Image-2021-10-30-at-9-08-05-PM-1.jpg)](https://postimg.cc/WDnWLGVD)
+
+[![Whats-App-Image-2021-10-30-at-9-08-05-PM.jpg](https://i.postimg.cc/HnN0JZ6Y/Whats-App-Image-2021-10-30-at-9-08-05-PM.jpg)](https://postimg.cc/V0j0pRyp)
