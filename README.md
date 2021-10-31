@@ -45,7 +45,7 @@ que pueden estar presentes durante el video, eso si debe ser parte de las person
               CF.Key.set(SUBSCRIPTION_KEY)
 
 
-#Se guardadn las rutas de acceso de las imagenes en una lista
+Se guardan las rutas de acceso de las imagenes en una lista
 
     listaPath=[] 
 
